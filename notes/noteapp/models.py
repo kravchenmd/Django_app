@@ -14,12 +14,12 @@ class Note(models.Model):
     description = models.CharField(max_length=150, null=False)
     done = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now_add=True)
-    tags = models.ManyToManyField(Tag, through='NoteToTag')
+    tags = models.ManyToManyField(Tag)  # through='NoteToTag'
 
     def __str__(self):
         return self.name
 
 
-class NoteToTag(models.Model):
-    note = models.ForeignKey(Note, on_delete=models.CASCADE)
-    tag = models.ForeignKey(Tag, on_delete=models.CASCADE)
+# class NoteToTag(models.Model):
+#     note = models.ForeignKey(Note, on_delete=models.CASCADE)
+#     tag = models.ForeignKey(Tag, on_delete=models.CASCADE)
