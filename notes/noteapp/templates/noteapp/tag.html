@@ -15,6 +15,13 @@
           <li><a href="/" role="button"> Go back to the main page </a></li>
         </ul>
       </nav>
+        {% if error %}
+            <div>
+                <mark>
+                  {{ error }}
+                </mark>
+            </div>
+        {% endif %}
       <form method="POST" action="{% url 'user_tag' %}">
         {% csrf_token %}
         <div style="padding: 10px">

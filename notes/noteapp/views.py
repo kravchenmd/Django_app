@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 
 from .models import Tag
+from .forms import TagForm
 
 
 # Create your views here.
@@ -10,9 +11,10 @@ def main(request):
 
 def tag(request):
     if request.method == 'POST':
-        name = request.POST['name']
-        if name:
-            tl = Tag(name=name)
-            tl.save()
-        return redirect(to='main')
-    return render(request, 'noteapp/tag.html', {})
+        try:
+            form = TagForm(request.POST)
+            form.save()
+            return redirect(to='main')
+        except ValueError as err:
+            return render(request, 'noteapp/tag.html', {'form': TagForm(), 'error': err})
+    return render(request, 'noteapp/tag.html', {'form': TagForm()})
