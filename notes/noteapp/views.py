@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from .models import Tag, Note
 from .forms import TagForm, NoteForm
 
@@ -46,10 +46,18 @@ def note(request):
 
 def set_done(request, note_id):
     Note.objects.filter(pk=note_id).update(done=True)
-    return redirect(to='/')
+    return redirect(to='main')
 
 
 def delete_note(request, note_id):
     note = Note.objects.get(pk=note_id)
     note.delete()
-    return redirect(to='/')
+    return redirect(to='main')
+
+
+def signup_user(request):
+    return render(request, 'noteapp/signup.html', {'form': UserCreationForm()})
+
+
+def login_user(request):
+    return render(request, 'noteapp/login.html', {'form': AuthenticationForm()})
