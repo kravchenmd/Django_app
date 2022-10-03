@@ -30,7 +30,7 @@
           >
           {% else %}
 
-          <a href="/detail/{{note.id}}" role="button" class="secondary"
+          <a href="{% url 'detail' note.id %}" role="button" class="secondary"
             ><s>{{note.name}}</s></a
           >
           {% endif %}
