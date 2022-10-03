@@ -42,3 +42,14 @@ def note(request):
         except ValueError as err:
             return render(request, 'noteapp/note.html', {"tags": tags, 'form': NoteForm(), 'error': err})
     return render(request, 'noteapp/note.html', {"tags": tags, 'form': NoteForm()})
+
+
+def set_done(request, note_id):
+    Note.objects.filter(pk=note_id).update(done=True)
+    return redirect(to='/')
+
+
+def delete_note(request, note_id):
+    note = Note.objects.get(pk=note_id)
+    note.delete()
+    return redirect(to='/')
