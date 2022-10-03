@@ -12,8 +12,8 @@
     <main class="container">
       <nav style="margin-bottom: 20px; border-bottom: 2px solid; padding-left: 30px">
         <ul>
-          <li><a href="/note/" role="button">Add note</a></li>
-          <li><a href="/tag/" role="button">Add Tag</a></li>
+          <li><a href="{% url 'note' %}" role="button">Add note</a></li>
+          <li><a href="{% url 'user_tag' %}" role="button">Add Tag</a></li>
         </ul>
       </nav>
 
@@ -21,11 +21,11 @@
       <ul>
         <li>
           {%if not note.done%}
-          <a href="/detail/{{note.id}}" role="button" class="outline"
+          <a href="{% url 'detail' note.id %}" role="button" class="outline"
             >{{note.name}}</a
           >
-          <a href="/done/{{note.id}}" role="button">Mark Done</a>
-          <a href="/delete/{{note.id}}" role="button" class="contrast"
+          <a href="{% url 'done' note.id %}" role="button">Mark Done</a>
+          <a href="{% url 'delete' note.id %}" role="button" class="contrast"
             >Delete note</a
           >
           {% else %}
