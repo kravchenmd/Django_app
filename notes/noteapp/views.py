@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from .models import Tag, Note, User
 from .forms import TagForm, NoteForm
@@ -84,3 +84,8 @@ def login_user(request):
                           {'form': AuthenticationForm(), 'error': 'Check username or password!'})
         login(request, user)
         return redirect('main')
+
+
+def logout_user(request):
+    logout(request)
+    return redirect('main')
