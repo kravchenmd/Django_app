@@ -23,11 +23,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-&nk^$y!3f0h_^7jvni%4afoq(bv!4-_0j8l-y#&5j#q!8r$nqw'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', 'wild-sound-7405.fly.dev']
 
-
+CSRF_TRUSTED_ORIGINS = [
+    'https://wild-sound-7405.fly.dev'
+]
 # Application definition
 
 INSTALLED_APPS = [
