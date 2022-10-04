@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
-from .models import Tag, Note
+from django.contrib.auth import authenticate, login
+from django.db import IntegrityError
+from .models import Tag, Note, User
 from .forms import TagForm, NoteForm
 
 
@@ -56,8 +58,29 @@ def delete_note(request, note_id):
 
 
 def signup_user(request):
-    return render(request, 'noteapp/signup.html', {'form': UserCreationForm()})
+    if request.method == 'GET':
+        return render(request, 'noteapp/signup.html', {'form': UserCreationForm()})
+    else:
+        if request.POST['password1'] == request.POST['password2']:
+            try:
+                user = User.objects.create_user(request.POST['username'], password=request.POST['password1'])
+                user.save()
+                return redirect('login_user')
+            except IntegrityError as err:
+                return render(request, 'noteapp/signup.html',
+                              {'form': UserCreationForm(), 'error': "This username already exists!"})
+        else:
+            return render(request, 'noteapp/signup.html',
+                          {'form': UserCreationForm(), 'error': "Passwords don't match!"})
 
 
 def login_user(request):
-    return render(request, 'noteapp/login.html', {'form': AuthenticationForm()})
+    if request.method == 'GET':
+        return render(request, 'noteapp/login.html', {'form': AuthenticationForm()})
+    else:
+        user = authenticate(request, username=request.POST['username'], password=request.POST['password'])
+        if user is None:
+            return render(request, 'noteapp/login.html',
+                          {'form': AuthenticationForm(), 'error': 'Check username or password!'})
+        login(request, user)
+        return redirect('main')
