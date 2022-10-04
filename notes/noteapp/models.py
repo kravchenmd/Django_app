@@ -23,9 +23,10 @@ class Note(models.Model):
     done = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now_add=True)
     tags = models.ManyToManyField(Tag)  # through='NoteToTag'
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.name
+        return f"{self.name}: {self.user_id}"
 
 
 # class NoteToTag(models.Model):
