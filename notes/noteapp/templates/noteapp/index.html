@@ -36,7 +36,7 @@
                     >{{ note.name }}</a
                     >
                     <a href="{% url 'set_done' note.id %}" role="button">Mark Done</a>
-                    <a href="{% url 'delete_one' note.id %}" role="button" class="contrast"
+                    <a href="{% url 'delete_note' note.id %}" role="button" class="contrast"
                     >Delete note</a
                     >
                 {% else %}
