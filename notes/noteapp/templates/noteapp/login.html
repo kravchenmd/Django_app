@@ -2,8 +2,8 @@
 
 {% block content %}
 
-    <form action="" method="post" data-bitwarden-watching="1">
-
+    <form action="" method="post">
+        {% csrf_token %}
         <div>
             <label for="id_username">Username:</label>
             <input type="text" name="username" autofocus="" autocapitalize="none" autocomplete="username"
