@@ -1,6 +1,7 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
 from .models import Tag, Note, User
 from .forms import TagForm, NoteForm
@@ -14,6 +15,7 @@ def main(request):
     return render(request, 'noteapp/index.html', {"notes": notes})
 
 
+@login_required  # prevent getting to the page for unauthorized user
 def tag(request):
     if request.method == 'POST':
         try:
@@ -24,9 +26,13 @@ def tag(request):
             return redirect(to='main')
         except ValueError as err:
             return render(request, 'noteapp/tag.html', {'form': TagForm(), 'error': err})
+        except IntegrityError as err:
+            return render(request, 'noteapp/tag.html',
+                          {'form': TagForm(), 'error': "You've already added this tag. Tag must be unique!"})
     return render(request, 'noteapp/tag.html', {'form': TagForm()})
 
 
+@login_required
 def detail(request, note_id):
     # note = Note.objects.get(pk=note_id, user_id=request.user)
     note  = get_object_or_404(Note, pk=note_id, user_id=request.user)
@@ -35,6 +41,7 @@ def detail(request, note_id):
     return render(request, 'noteapp/detail.html', {"note": note})
 
 
+@login_required
 def note(request):
     tags = Tag.objects.all()
     if request.method == 'POST':
@@ -53,11 +60,13 @@ def note(request):
     return render(request, 'noteapp/note.html', {"tags": tags, 'form': NoteForm()})
 
 
+@login_required
 def set_done(request, note_id):
     Note.objects.filter(pk=note_id, user_id=request.user).update(done=True)
     return redirect(to='main')
 
 
+@login_required
 def delete_note(request, note_id):
     note = Note.objects.get(pk=note_id, user_id=request.user)
     note.delete()
@@ -93,6 +102,7 @@ def login_user(request):
         return redirect('main')
 
 
+@login_required
 def logout_user(request):
     logout(request)
     return redirect('main')
