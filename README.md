@@ -2,7 +2,7 @@
 
 ## Description
 
-A demo web application for holding notes of user on **Django**, with following features:
+A simple web application for holding notes of user on **Django**, with following features:
 
 - The app has a very simple front-end part (but not so poor back-end) basen on HTML templates rendered by `Jinja2`
 
