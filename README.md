@@ -17,6 +17,7 @@ A simple web application for holding notes of user on **Django**, with following
 - The app has full **CRUD** functionality for viewing and managing the pictures
 - For simplicity purposes validation of the input data during the registration and log in is implemented
   via HTML forms and user's password in stored in raw unencrypted form
+- Docker container was created for testing deployment purposes (at `fly.io`)
 
 
 ## Examples of different pages
